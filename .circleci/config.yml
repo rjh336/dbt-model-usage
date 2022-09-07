@@ -1,0 +1,57 @@
+version: 2.1
+
+jobs:
+
+  integration-tests:
+    docker:
+      - image: cimg/python:3.9.9
+
+    resource_class: small
+
+    environment:
+      DBT_PROFILES_DIR: ./integration_tests/ci
+      DBT_PROJECT_DIR: ./integration_tests
+      BIGQUERY_SERVICE_KEY_PATH: "/home/circleci/bigquery-service-key.json"
+      GOOGLE_APPLICATION_CREDENTIALS: "/home/circleci/bigquery-service-key.json"
+
+    steps:
+      - checkout
+      - run:
+          name: Set dbt Profile
+          command: cp $DBT_PROJECT_DIR/ci/sample.profiles.yml $DBT_PROJECT_DIR/ci/profiles.yml
+      - run:
+          name: Install Python packages
+          command: |
+            python3 -m venv venv
+            . venv/bin/activate
+            pip install -U pip setuptools wheel
+            pip install -r dev-requirements.txt
+      - run:
+          name: Install dbt dependencies
+          command: |
+            . venv/bin/activate
+            dbt deps --project-dir $DBT_PROJECT_DIR
+      - run:
+          name: "BigQuery - GCP credentials"
+          command: |
+            echo $BIGQUERY_SERVICE_KEY > $BIGQUERY_SERVICE_KEY_PATH
+      - run:
+          name: "BigQuery Tests"
+          command: |
+            . venv/bin/activate
+            . scripts/run_tests.sh bigquery
+      - run:
+          name: "Snowflake Tests"
+          command: |
+            . venv/bin/activate
+            . scripts/run_tests.sh snowflake
+
+workflows:
+  version: 2
+  test-all:
+    jobs:
+      - hold:
+          type: approval
+      - integration-tests:
+          requires:
+            - hold

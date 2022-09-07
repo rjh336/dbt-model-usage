@@ -1,0 +1,28 @@
+version: 2
+
+models:
+
+  - name: test_model_table
+    config:
+      materialized: table
+    tests:
+      - dbt_model_usage.model_queried_within_last:
+          time_unit: '{{var("time_unit")}}'
+          num_units: '{{var("num_units")}}'
+
+  - name: test_model_view
+    config:
+      materialized: view
+    tests:
+      - dbt_model_usage.model_queried_within_last:
+          time_unit: '{{var("time_unit")}}'
+          num_units: '{{var("num_units")}}'
+    columns:
+      - name: string_field
+        # keep built-in tests to know whether we are properly excluding dbt-generated queries
+        tests:
+          - not_null
+          - unique
+          - dbt_model_usage.column_queried_within_last:
+              time_unit: '{{var("time_unit")}}'
+              num_units: '{{var("num_units")}}'

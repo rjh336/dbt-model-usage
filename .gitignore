@@ -1,0 +1,12 @@
+.env/
+.pytest_cache/
+__pycache__/
+target/
+dbt_modules/
+dbt_packages/
+logs/
+venv/
+profiles.yml
+.python-version
+.DS_Store
+.env

@@ -1,0 +1,7 @@
+dbt-core
+dbt-postgres
+dbt-bigquery
+dbt-snowflake
+pytest
+google-cloud-bigquery
+snowflake-connector-python==2.7.9

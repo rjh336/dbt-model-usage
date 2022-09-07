@@ -1,0 +1,18 @@
+name: 'dbt_model_usage_integration_tests'
+version: '1.0'
+
+profile: 'integration_tests'
+
+config-version: 2
+
+model-paths: ["models"]
+analysis-paths: ["analysis"]
+test-paths: ["tests"]
+seed-paths: ["data"]
+macro-paths: ["macros"]
+target-path: "target"
+clean-targets: ["target", "dbt_modules", "dbt_packages"]
+
+vars:
+  model_usage_dbt_query_comment_pattern: '^\/\*\s+\{"app"\:\s+"dbt".*'
+  model_usage_dbt_query_tag_pattern: dbt_integration_tests
