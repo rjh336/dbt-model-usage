@@ -27,6 +27,16 @@ jobs:
             pip install -U pip setuptools wheel
             pip install -r dev-requirements.txt
       - run:
+          name: Rename dbt models
+          command: |
+            . venv/bin/activate
+            export GLOBAL_MODEL_SUFFIX=`date +%s`
+            touch .env && echo "GLOBAL_MODEL_SUFFIX=$GLOBAL_MODEL_SUFFIX" >> .env
+            mv ./integration_tests/models/test_model_table.sql ./integration_tests/models/test_model_table_`echo $GLOBAL_MODEL_SUFFIX`.sql
+            mv ./integration_tests/models/test_model_view.sql ./integration_tests/models/test_model_view_`echo $GLOBAL_MODEL_SUFFIX`.sql
+            sed -i -e "s/test_model_table/test_model_table_$GLOBAL_MODEL_SUFFIX/g" ./integration_tests/models/properties.yml
+            sed -i -e "s/test_model_view/test_model_view_$GLOBAL_MODEL_SUFFIX/g" ./integration_tests/models/properties.yml
+      - run:
           name: Install dbt dependencies
           command: |
             . venv/bin/activate

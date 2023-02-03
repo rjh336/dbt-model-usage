@@ -66,7 +66,7 @@
             query_id,
             query_text
         from
-            table(dbt_model_usage.information_schema.query_history(result_limit => 10000))
+            table({{ target_model.database }}.information_schema.query_history(result_limit => 10000))
         where
             query_type = 'SELECT'
             and start_time between timestampadd({{ time_unit }}, -{{ num_units }}, current_timestamp()) and current_timestamp()
