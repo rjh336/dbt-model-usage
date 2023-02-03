@@ -5,14 +5,14 @@ from google.cloud import bigquery
 
 QUERIES = {
     'models_query': """
-        select * from {0}.{1}.test_model_view
+        select * from {0}.{1}.test_model_view_{2}
         union all
-        select * from {0}.{1}.test_model_table
+        select * from {0}.{1}.test_model_table_{2}
         """,
 
     'columns_query': """
         select string_field 
-        from {0}.{1}.test_model_view
+        from {0}.{1}.test_model_view_{2}
         """
 }
 
@@ -24,7 +24,8 @@ def main(target, query_name):
         bigquery_ctx = bigquery.Client()
         query = query_format_string.format(
             os.getenv('BIGQUERY_TEST_DATABASE'),
-            os.getenv('TEST_SCHEMA')
+            os.getenv('TEST_SCHEMA'),
+            os.getenv('GLOBAL_MODEL_SUFFIX')
         )
         print(f"{query}\n")
         _ = bigquery_ctx.query(query).result()
@@ -36,7 +37,9 @@ def main(target, query_name):
             account=os.getenv('SNOWFLAKE_ACCOUNT_ID'))
         query = query_format_string.format(
             os.getenv('SNOWFLAKE_TEST_DATABASE'),
-            os.getenv('TEST_SCHEMA'))
+            os.getenv('TEST_SCHEMA'),
+            os.getenv('GLOBAL_MODEL_SUFFIX')
+        )
         print(f"{query}\n")
         cur = snowflake_ctx.cursor()
         cur.execute(query)

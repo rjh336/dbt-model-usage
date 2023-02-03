@@ -30,11 +30,11 @@ jobs:
           name: Rename dbt models
           command: |
             . venv/bin/activate
-            model_suffix=`date +%s`
-            mv ./integration_tests/models/test_model_table.sql ./integration_tests/models/test_model_table_`echo $model_suffix`.sql
-            mv ./integration_tests/models/test_model_view.sql ./integration_tests/models/test_model_view_`echo $model_suffix`.sql
-            sed -i -e "s/test_model_table/test_model_table_$model_suffix/g" ./integration_tests/models/properties.yml
-            sed -i -e "s/test_model_view/test_model_view_$model_suffix/g" ./integration_tests/models/properties.yml
+            export GLOBAL_MODEL_SUFFIX=`date +%s`
+            mv ./integration_tests/models/test_model_table.sql ./integration_tests/models/test_model_table_`echo $GLOBAL_MODEL_SUFFIX`.sql
+            mv ./integration_tests/models/test_model_view.sql ./integration_tests/models/test_model_view_`echo $GLOBAL_MODEL_SUFFIX`.sql
+            sed -i -e "s/test_model_table/test_model_table_$GLOBAL_MODEL_SUFFIX/g" ./integration_tests/models/properties.yml
+            sed -i -e "s/test_model_view/test_model_view_$GLOBAL_MODEL_SUFFIX/g" ./integration_tests/models/properties.yml
       - run:
           name: Install dbt dependencies
           command: |
