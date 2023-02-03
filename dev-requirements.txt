@@ -3,5 +3,6 @@ dbt-postgres
 dbt-bigquery
 dbt-snowflake
 pytest
+python-dotenv
 google-cloud-bigquery
 snowflake-connector-python==2.8.1

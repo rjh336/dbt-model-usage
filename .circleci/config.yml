@@ -31,7 +31,7 @@ jobs:
           command: |
             . venv/bin/activate
             export GLOBAL_MODEL_SUFFIX=`date +%s`
-            echo 'export GLOBAL_MODEL_SUFFIX=$GLOBAL_MODEL_SUFFIX' >> "$BASH_ENV"
+            touch .env && echo 'GLOBAL_MODEL_SUFFIX=$GLOBAL_MODEL_SUFFIX' >> .env
             mv ./integration_tests/models/test_model_table.sql ./integration_tests/models/test_model_table_`echo $GLOBAL_MODEL_SUFFIX`.sql
             mv ./integration_tests/models/test_model_view.sql ./integration_tests/models/test_model_view_`echo $GLOBAL_MODEL_SUFFIX`.sql
             sed -i -e "s/test_model_table/test_model_table_$GLOBAL_MODEL_SUFFIX/g" ./integration_tests/models/properties.yml
