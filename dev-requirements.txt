@@ -4,4 +4,4 @@ dbt-bigquery
 dbt-snowflake
 pytest
 google-cloud-bigquery
-snowflake-connector-python==2.7.9
+snowflake-connector-python==2.8.1
