@@ -37,7 +37,7 @@
     select
         ddl as query
     from
-        `{{ target_model.schema }}`.INFORMATION_SCHEMA.TABLES
+        `{{ target_model.database }}`.`{{ target_model.schema }}`.INFORMATION_SCHEMA.TABLES
     WHERE
         table_name = '{{ target_model.name }}'
         and creation_time < timestamp_sub(current_timestamp(), interval {{ num_units }} {{ time_unit }})
