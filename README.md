@@ -12,8 +12,8 @@ This package currently supports Google BigQuery and Snowflake.
 1. Add this package to your project's `packages.yml`
     ```yaml
     packages:
-      - git: rjh336/dbt-model-usage
-        version: 0.1.0
+      - package: rjh336/dbt-model-usage
+        version: 0.1.2
     ```
 2. Update dependencies in your project
     ```bash
