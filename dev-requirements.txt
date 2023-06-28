@@ -5,4 +5,4 @@ dbt-snowflake
 pytest
 python-dotenv
 google-cloud-bigquery
-snowflake-connector-python==2.8.1
+snowflake-connector-python

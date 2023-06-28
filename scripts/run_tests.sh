@@ -18,7 +18,7 @@ printf "\n\nRunning integration test query:"
 python3 ./scripts/query_database.py $dbt_target models_query
 
 printf "\n\ndbt test ...\n"
-dbt test -t $dbt_target --project-dir $DBT_PROJECT_DIR --vars '{time_unit: second, num_units: 30}' || true
+dbt test -t $dbt_target --project-dir $DBT_PROJECT_DIR --vars '{time_unit: second, num_units: 15}' || true
 printf "\nRun results validation:\n"
 pytest -v scripts/test_run_results.py::test_build_failure_column_test
 
